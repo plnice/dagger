@@ -27,6 +27,7 @@ java_library(
     deps = [
         "//java/dagger:core",
         "//java/dagger/internal/codegen/base:shared",
+        "//java/dagger/internal/codegen/extension",
         "//java/dagger/internal/codegen/xprocessing",
         "//java/dagger/internal/guava:base",
         "//java/dagger/internal/guava:collect",

@@ -44,8 +44,7 @@ public abstract class Scope {
    * Returns {@code true} if {@code scopeAnnotationType} is a {@link javax.inject.Scope} annotation.
    */
   public static boolean isScope(DaggerTypeElement scopeAnnotationType) {
-    // TODO(bcorso): Replace Scope class reference with class name once auto-common is updated.
-    return isAnnotationPresent(scopeAnnotationType.java(), javax.inject.Scope.class);
+    return isAnnotationPresent(scopeAnnotationType.java(), SCOPE.canonicalName());
   }
 
   private static final ClassName PRODUCTION_SCOPE =

@@ -19,6 +19,7 @@ package dagger.android.processor;
 import static com.google.auto.common.AnnotationMirrors.getAnnotatedAnnotations;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static dagger.android.processor.AndroidMapKeys.injectedTypeFromMapKey;
+import static dagger.internal.codegen.langmodel.DaggerElements.getAnnotatedAnnotations;
 
 import com.google.auto.common.BasicAnnotationProcessor.Step;
 import com.google.auto.common.MoreElements;
@@ -28,8 +29,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.squareup.javapoet.ClassName;
 import dagger.MapKey;
 import javax.annotation.processing.Messager;
-import javax.inject.Qualifier;
-import javax.inject.Scope;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -79,7 +78,7 @@ final class AndroidMapKeyValidator implements Step {
   }
 
   private void validateMethod(String annotation, ExecutableElement method) {
-    if (!getAnnotatedAnnotations(method, Qualifier.class).isEmpty()) {
+    if (!getAnnotatedAnnotations(method, TypeNames.QUALIFIER).isEmpty()) {
       return;
     }
 
@@ -89,7 +88,7 @@ final class AndroidMapKeyValidator implements Step {
       return;
     }
 
-    if (!getAnnotatedAnnotations(method, Scope.class).isEmpty()) {
+    if (!getAnnotatedAnnotations(method, TypeNames.SCOPE).isEmpty()) {
       SuppressWarnings suppressedWarnings = method.getAnnotation(SuppressWarnings.class);
       if (suppressedWarnings == null
           || !ImmutableSet.copyOf(suppressedWarnings.value())

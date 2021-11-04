@@ -39,6 +39,7 @@ java_library(
     tags = ["maven_coordinates=com.google.dagger:dagger-android-processor:" + POM_VERSION],
     deps = [
         "//java/dagger:core",
+        "//java/dagger/internal/codegen/langmodel",
         "//java/dagger/internal/guava:base",
         "//java/dagger/internal/guava:collect",
         "//java/dagger/spi",

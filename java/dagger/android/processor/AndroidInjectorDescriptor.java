@@ -16,8 +16,8 @@
 
 package dagger.android.processor;
 
-import static com.google.auto.common.AnnotationMirrors.getAnnotatedAnnotations;
 import static com.google.auto.common.AnnotationMirrors.getAnnotationValue;
+import static dagger.internal.codegen.langmodel.DaggerElements.getAnnotatedAnnotations;
 import static java.util.stream.Collectors.toList;
 import static javax.lang.model.element.Modifier.ABSTRACT;
 
@@ -31,8 +31,6 @@ import com.squareup.javapoet.TypeName;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.processing.Messager;
-import javax.inject.Qualifier;
-import javax.inject.Scope;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
@@ -128,11 +126,13 @@ abstract class AndroidInjectorDescriptor {
         }
       }
 
-      for (AnnotationMirror scope : getAnnotatedAnnotations(method, Scope.class)) {
+      for (AnnotationMirror scope
+          : getAnnotatedAnnotations(method, TypeNames.SCOPE)) {
         builder.scopesBuilder().add(AnnotationSpec.get(scope));
       }
 
-      for (AnnotationMirror qualifier : getAnnotatedAnnotations(method, Qualifier.class)) {
+      for (AnnotationMirror qualifier
+          : getAnnotatedAnnotations(method, TypeNames.QUALIFIER)) {
         reporter.reportError(
             "@ContributesAndroidInjector methods cannot have qualifiers", qualifier);
       }

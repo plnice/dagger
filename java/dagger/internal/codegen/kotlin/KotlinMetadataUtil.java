@@ -16,11 +16,12 @@
 
 package dagger.internal.codegen.kotlin;
 
-import static com.google.auto.common.AnnotationMirrors.getAnnotatedAnnotations;
+
 import static com.google.auto.common.MoreElements.isAnnotationPresent;
 import static com.google.common.base.Preconditions.checkState;
 import static dagger.internal.codegen.extension.DaggerStreams.toImmutableMap;
 import static dagger.internal.codegen.langmodel.DaggerElements.closestEnclosingTypeElement;
+import static dagger.internal.codegen.langmodel.DaggerElements.getAnnotatedAnnotations;
 import static kotlinx.metadata.Flag.Class.IS_COMPANION_OBJECT;
 import static kotlinx.metadata.Flag.Class.IS_DATA;
 import static kotlinx.metadata.Flag.Class.IS_OBJECT;
@@ -29,9 +30,9 @@ import static kotlinx.metadata.Flag.IS_PRIVATE;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.squareup.javapoet.ClassName;
 import dagger.internal.codegen.extension.DaggerCollectors;
 import dagger.internal.codegen.kotlin.KotlinMetadata.FunctionMetadata;
-import java.lang.annotation.Annotation;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.lang.model.element.AnnotationMirror;
@@ -68,11 +69,12 @@ public final class KotlinMetadataUtil {
    * method, if any, of a Kotlin property and not for annotations in its backing field.
    */
   public ImmutableCollection<? extends AnnotationMirror> getSyntheticPropertyAnnotations(
-      VariableElement fieldElement, Class<? extends Annotation> annotationType) {
+      VariableElement fieldElement, ClassName annotationType) {
     return metadataFactory
         .create(fieldElement)
         .getSyntheticAnnotationMethod(fieldElement)
-        .map(methodElement -> getAnnotatedAnnotations(methodElement, annotationType).asList())
+        .map(methodElement ->
+            getAnnotatedAnnotations(methodElement, annotationType).asList())
         .orElse(ImmutableList.of());
   }
 

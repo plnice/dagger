@@ -20,7 +20,6 @@ import static androidx.room.compiler.processing.XElementKt.isMethod;
 import static androidx.room.compiler.processing.XElementKt.isVariableElement;
 import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import static androidx.room.compiler.processing.compat.XConverters.toXProcessing;
-import static com.google.auto.common.MoreElements.isAnnotationPresent;
 import static com.google.auto.common.MoreTypes.asDeclared;
 import static com.google.auto.common.MoreTypes.asTypeElement;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -34,6 +33,7 @@ import static dagger.internal.codegen.binding.ConfigurationAnnotations.getNullab
 import static dagger.internal.codegen.binding.MapKeys.getMapKey;
 import static dagger.internal.codegen.extension.DaggerStreams.toImmutableList;
 import static dagger.internal.codegen.extension.DaggerStreams.toImmutableSet;
+import static dagger.internal.codegen.langmodel.DaggerElements.isAnnotationPresent;
 import static dagger.internal.codegen.xprocessing.XElements.asMethod;
 import static dagger.internal.codegen.xprocessing.XElements.asVariable;
 import static dagger.spi.model.BindingKind.ASSISTED_FACTORY;
@@ -71,7 +71,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.squareup.javapoet.ClassName;
 import dagger.Module;
-import dagger.assisted.AssistedInject;
 import dagger.internal.codegen.base.ContributionType;
 import dagger.internal.codegen.base.MapType;
 import dagger.internal.codegen.base.SetType;
@@ -153,8 +152,8 @@ public final class BindingFactory {
       ExecutableElement constructorElement, Optional<TypeMirror> resolvedType) {
     checkArgument(constructorElement.getKind().equals(CONSTRUCTOR));
     checkArgument(
-        isAnnotationPresent(constructorElement, Inject.class)
-            || isAnnotationPresent(constructorElement, AssistedInject.class));
+        isAnnotationPresent(constructorElement, TypeNames.INJECT)
+            || isAnnotationPresent(constructorElement, TypeNames.ASSISTED_INJECT));
     checkArgument(!injectionAnnotations.getQualifier(constructorElement).isPresent());
 
     ExecutableType constructorType = MoreTypes.asExecutable(constructorElement.asType());
@@ -194,7 +193,7 @@ public final class BindingFactory {
             .provisionDependencies(provisionDependencies.build())
             .injectionSites(injectionSiteFactory.getInjectionSites(constructedType))
             .kind(
-                isAnnotationPresent(constructorElement, AssistedInject.class)
+                isAnnotationPresent(constructorElement, TypeNames.ASSISTED_INJECT)
                     ? ASSISTED_INJECTION
                     : INJECTION)
             .scope(

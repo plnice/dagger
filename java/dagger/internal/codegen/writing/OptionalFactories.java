@@ -27,7 +27,6 @@ import static com.squareup.javapoet.TypeSpec.classBuilder;
 import static dagger.internal.codegen.base.RequestKinds.requestTypeName;
 import static dagger.internal.codegen.javapoet.AnnotationSpecs.Suppression.RAWTYPES;
 import static dagger.internal.codegen.javapoet.AnnotationSpecs.Suppression.UNCHECKED;
-import static dagger.internal.codegen.javapoet.TypeNames.PROVIDER;
 import static dagger.internal.codegen.javapoet.TypeNames.abstractProducerOf;
 import static dagger.internal.codegen.javapoet.TypeNames.listenableFutureOf;
 import static dagger.internal.codegen.javapoet.TypeNames.providerOf;
@@ -61,6 +60,7 @@ import dagger.internal.codegen.binding.BindingType;
 import dagger.internal.codegen.binding.ContributionBinding;
 import dagger.internal.codegen.binding.FrameworkType;
 import dagger.internal.codegen.javapoet.AnnotationSpecs;
+import dagger.internal.codegen.javapoet.TypeNames;
 import dagger.internal.codegen.writing.ComponentImplementation.ShardImplementation;
 import dagger.producers.Producer;
 import dagger.producers.internal.Producers;
@@ -155,7 +155,7 @@ final class OptionalFactories {
         .returns(providerOf(optionalKind.of(typeVariable)))
         .addJavadoc(
             "Returns a {@link $T} that returns {@code $L}.",
-            Provider.class,
+            TypeNames.PROVIDER,
             optionalKind.absentValueExpression())
         .addCode("$L // safe covariant cast\n", AnnotationSpecs.suppressWarnings(UNCHECKED))
         .addCode(
@@ -178,7 +178,7 @@ final class OptionalFactories {
    */
   private FieldSpec absentOptionalProviderField(OptionalKind optionalKind) {
     return FieldSpec.builder(
-            PROVIDER,
+            TypeNames.PROVIDER,
             String.format("ABSENT_%s_PROVIDER", optionalKind.name()),
             PRIVATE,
             STATIC,
@@ -187,7 +187,7 @@ final class OptionalFactories {
         .initializer("$T.create($L)", InstanceFactory.class, optionalKind.absentValueExpression())
         .addJavadoc(
             "A {@link $T} that returns {@code $L}.",
-            Provider.class,
+            TypeNames.PROVIDER,
             optionalKind.absentValueExpression())
         .build();
   }

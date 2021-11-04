@@ -18,7 +18,6 @@ package dagger.internal.codegen.binding;
 
 import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import static com.google.auto.common.MoreElements.asExecutable;
-import static com.google.auto.common.MoreElements.isAnnotationPresent;
 import static com.google.auto.common.MoreTypes.asDeclared;
 import static com.google.auto.common.MoreTypes.asExecutable;
 import static com.google.auto.common.MoreTypes.asTypeElement;
@@ -28,6 +27,7 @@ import static dagger.internal.codegen.base.MoreAnnotationValues.getStringValue;
 import static dagger.internal.codegen.extension.DaggerStreams.toImmutableList;
 import static dagger.internal.codegen.extension.DaggerStreams.toImmutableSet;
 import static dagger.internal.codegen.langmodel.DaggerElements.getAnnotationMirror;
+import static dagger.internal.codegen.langmodel.DaggerElements.isAnnotationPresent;
 import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.util.ElementFilter.constructorsIn;
 
@@ -47,7 +47,6 @@ import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
-import dagger.assisted.AssistedInject;
 import dagger.internal.codegen.javapoet.TypeNames;
 import dagger.internal.codegen.langmodel.DaggerElements;
 import dagger.internal.codegen.langmodel.DaggerTypes;
@@ -99,7 +98,8 @@ public final class AssistedInjectionAnnotations {
   public static boolean isAssistedInjectionType(TypeElement typeElement) {
     ImmutableSet<ExecutableElement> injectConstructors = assistedInjectedConstructors(typeElement);
     return !injectConstructors.isEmpty()
-        && isAnnotationPresent(getOnlyElement(injectConstructors), AssistedInject.class);
+        && DaggerElements.isAnnotationPresent(
+            getOnlyElement(injectConstructors), TypeNames.ASSISTED_INJECT);
   }
 
   /** Returns {@code true} if this binding is an assisted factory. */
@@ -109,7 +109,7 @@ public final class AssistedInjectionAnnotations {
 
   /** Returns {@code true} if this binding is an assisted factory. */
   public static boolean isAssistedFactoryType(Element element) {
-    return isAnnotationPresent(element, AssistedFactory.class);
+    return isAnnotationPresent(element, TypeNames.ASSISTED_FACTORY);
   }
 
   /**
@@ -178,7 +178,8 @@ public final class AssistedInjectionAnnotations {
   /** Returns the constructors in {@code type} that are annotated with {@link AssistedInject}. */
   public static ImmutableSet<ExecutableElement> assistedInjectedConstructors(TypeElement type) {
     return constructorsIn(type.getEnclosedElements()).stream()
-        .filter(constructor -> isAnnotationPresent(constructor, AssistedInject.class))
+        .filter(constructor ->
+            DaggerElements.isAnnotationPresent(constructor, TypeNames.ASSISTED_INJECT))
         .collect(toImmutableSet());
   }
 
@@ -196,7 +197,7 @@ public final class AssistedInjectionAnnotations {
 
   /** Returns {@code true} if this binding is uses assisted injection. */
   public static boolean isAssistedParameter(VariableElement param) {
-    return isAnnotationPresent(MoreElements.asVariable(param), Assisted.class);
+    return isAnnotationPresent(MoreElements.asVariable(param), TypeNames.ASSISTED);
   }
 
   /** Metadata about an {@link dagger.assisted.AssistedFactory} annotated type. */
@@ -323,7 +324,7 @@ public final class AssistedInjectionAnnotations {
     for (int i = 0; i < assistedInjectConstructor.getParameters().size(); i++) {
       VariableElement parameter = assistedInjectConstructor.getParameters().get(i);
       TypeMirror parameterType = assistedInjectConstructorType.getParameterTypes().get(i);
-      if (isAnnotationPresent(parameter, Assisted.class)) {
+      if (isAnnotationPresent(parameter, TypeNames.ASSISTED)) {
         builder.add(AssistedParameter.create(parameter, parameterType));
       }
     }

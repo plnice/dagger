@@ -20,13 +20,13 @@ import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import static androidx.room.compiler.processing.compat.XConverters.toXProcessing;
 import static com.google.auto.common.MoreElements.asType;
 import static com.google.auto.common.MoreElements.asVariable;
-import static com.google.auto.common.MoreElements.isAnnotationPresent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static dagger.internal.codegen.base.MoreAnnotationValues.getStringValue;
 import static dagger.internal.codegen.binding.SourceFiles.memberInjectedFieldSignatureForVariable;
 import static dagger.internal.codegen.binding.SourceFiles.membersInjectorNameForType;
 import static dagger.internal.codegen.extension.DaggerStreams.toImmutableSet;
 import static dagger.internal.codegen.langmodel.DaggerElements.getAnnotationMirror;
+import static dagger.internal.codegen.langmodel.DaggerElements.isAnnotationPresent;
 import static javax.lang.model.element.Modifier.STATIC;
 import static javax.lang.model.util.ElementFilter.constructorsIn;
 
@@ -50,7 +50,6 @@ import dagger.internal.codegen.langmodel.DaggerElements;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.inject.Inject;
-import javax.inject.Qualifier;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -107,11 +106,11 @@ public final class InjectionAnnotations {
 
   public ImmutableCollection<? extends AnnotationMirror> getQualifiers(Element element) {
     ImmutableSet<? extends AnnotationMirror> qualifiers =
-        AnnotationMirrors.getAnnotatedAnnotations(element, Qualifier.class);
+        DaggerElements.getAnnotatedAnnotations(element, TypeNames.QUALIFIER);
     if (element.getKind() == ElementKind.FIELD
         // static injected fields are not supported, no need to get qualifier from kotlin metadata
         && !element.getModifiers().contains(STATIC)
-        && isAnnotationPresent(element, Inject.class)
+        && isAnnotationPresent(element, TypeNames.INJECT)
         && kotlinMetadataUtil.hasMetadata(element)) {
       return Stream.concat(
               qualifiers.stream(), getQualifiersForKotlinProperty(asVariable(element)).stream())
@@ -134,7 +133,7 @@ public final class InjectionAnnotations {
   /** Returns the constructors in {@code type} that are annotated with {@link Inject}. */
   public static ImmutableSet<ExecutableElement> injectedConstructors(TypeElement type) {
     return FluentIterable.from(constructorsIn(type.getEnclosedElements()))
-        .filter(constructor -> isAnnotationPresent(constructor, Inject.class))
+        .filter(constructor -> isAnnotationPresent(constructor, TypeNames.INJECT))
         .toSet();
   }
 
@@ -182,7 +181,7 @@ public final class InjectionAnnotations {
             "No MembersInjector found for " + fieldElement.getEnclosingElement());
       }
     } else {
-      return kotlinMetadataUtil.getSyntheticPropertyAnnotations(fieldElement, Qualifier.class);
+      return kotlinMetadataUtil.getSyntheticPropertyAnnotations(fieldElement, TypeNames.QUALIFIER);
     }
   }
 }

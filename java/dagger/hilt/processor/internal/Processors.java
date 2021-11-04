@@ -62,7 +62,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.inject.Qualifier;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
@@ -767,7 +766,7 @@ public final class Processors {
   public static ImmutableList<AnnotationMirror> getQualifierAnnotations(Element element) {
     // TODO(bcorso): Consolidate this logic with InjectionAnnotations in Dagger
     ImmutableSet<? extends AnnotationMirror> qualifiers =
-        AnnotationMirrors.getAnnotatedAnnotations(element, Qualifier.class);
+        AnnotationMirrors.getAnnotatedAnnotations(element, ClassNames.QUALIFIER.canonicalName());
     KotlinMetadataUtil metadataUtil = KotlinMetadataUtils.getMetadataUtil();
     if (element.getKind() == ElementKind.FIELD
         // static fields are generally not supported, no need to get qualifier from kotlin metadata
@@ -779,7 +778,7 @@ public final class Processors {
               metadataUtil.isMissingSyntheticPropertyForAnnotations(fieldElement)
                   ? Stream.empty()
                   : metadataUtil
-                      .getSyntheticPropertyAnnotations(fieldElement, Qualifier.class)
+                      .getSyntheticPropertyAnnotations(fieldElement, ClassNames.QUALIFIER)
                       .stream())
           .map(AnnotationMirrors.equivalence()::wrap)
           .distinct()

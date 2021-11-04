@@ -140,6 +140,7 @@ public final class TypeNames {
   public static final ClassName SINGLETON = ClassName.get("javax.inject", "Singleton");
   public static final ClassName SCOPE = ClassName.get("javax.inject", "Scope");
   public static final ClassName INJECT = ClassName.get("javax.inject", "Inject");
+  public static final ClassName QUALIFIER = ClassName.get("javax.inject", "Qualifier");
   public static final ClassName LIST = ClassName.get("java.util", "List");
   public static final ClassName SET = ClassName.get("java.util", "Set");
   public static final ClassName IMMUTABLE_SET =

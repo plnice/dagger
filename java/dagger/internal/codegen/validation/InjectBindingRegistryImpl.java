@@ -44,8 +44,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.squareup.javapoet.ClassName;
 import dagger.Component;
-import dagger.MembersInjector;
 import dagger.Provides;
 import dagger.internal.codegen.base.SourceFileGenerationException;
 import dagger.internal.codegen.base.SourceFileGenerator;
@@ -56,6 +56,7 @@ import dagger.internal.codegen.binding.KeyFactory;
 import dagger.internal.codegen.binding.MembersInjectionBinding;
 import dagger.internal.codegen.binding.ProvisionBinding;
 import dagger.internal.codegen.compileroption.CompilerOptions;
+import dagger.internal.codegen.javapoet.TypeNames;
 import dagger.internal.codegen.langmodel.DaggerElements;
 import dagger.internal.codegen.langmodel.DaggerTypes;
 import dagger.spi.model.Key;
@@ -65,7 +66,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
@@ -90,12 +90,12 @@ final class InjectBindingRegistryImpl implements InjectBindingRegistry {
   private final CompilerOptions compilerOptions;
 
   final class BindingsCollection<B extends Binding> {
-    private final Class<?> factoryClass;
+    private final ClassName factoryClass;
     private final Map<Key, B> bindingsByKey = Maps.newLinkedHashMap();
     private final Deque<B> bindingsRequiringGeneration = new ArrayDeque<>();
     private final Set<Key> materializedBindingKeys = Sets.newLinkedHashSet();
 
-    BindingsCollection(Class<?> factoryClass) {
+    BindingsCollection(ClassName factoryClass) {
       this.factoryClass = factoryClass;
     }
 
@@ -147,7 +147,7 @@ final class InjectBindingRegistryImpl implements InjectBindingRegistry {
               String.format(
                   "Generating a %s for %s. "
                       + "Prefer to run the dagger processor over that class instead.",
-                  factoryClass.getSimpleName(),
+                  factoryClass.simpleName(),
                   types.erasure(binding.key().type().java()))); // erasure to strip <T> from msgs.
         }
       }
@@ -177,9 +177,9 @@ final class InjectBindingRegistryImpl implements InjectBindingRegistry {
   }
 
   private final BindingsCollection<ProvisionBinding> provisionBindings =
-      new BindingsCollection<>(Provider.class);
+      new BindingsCollection<>(TypeNames.PROVIDER);
   private final BindingsCollection<MembersInjectionBinding> membersInjectionBindings =
-      new BindingsCollection<>(MembersInjector.class);
+      new BindingsCollection<>(TypeNames.MEMBERS_INJECTOR);
 
   @Inject
   InjectBindingRegistryImpl(

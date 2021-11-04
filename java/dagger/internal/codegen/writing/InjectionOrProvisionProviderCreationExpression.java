@@ -26,6 +26,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import dagger.internal.codegen.binding.ContributionBinding;
 import dagger.internal.codegen.javapoet.CodeBlocks;
+import dagger.internal.codegen.javapoet.TypeNames;
 import dagger.internal.codegen.writing.ComponentImplementation.ShardImplementation;
 import dagger.internal.codegen.writing.FrameworkFieldInitializer.FrameworkInstanceCreationExpression;
 import javax.inject.Provider;
@@ -66,7 +67,7 @@ final class InjectionOrProvisionProviderCreationExpression
     if (binding.kind().equals(INJECTION)
         && binding.unresolved().isPresent()
         && binding.scope().isPresent()) {
-      return CodeBlocks.cast(createFactory, Provider.class);
+      return CodeBlocks.cast(createFactory, TypeNames.PROVIDER);
     } else {
       return createFactory;
     }

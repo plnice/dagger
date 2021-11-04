@@ -22,6 +22,7 @@ import static com.google.auto.common.MoreElements.asExecutable;
 import static com.google.auto.common.MoreElements.hasModifiers;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.asList;
+import static dagger.internal.codegen.extension.DaggerStreams.toImmutableSet;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toSet;
 import static javax.lang.model.element.Modifier.ABSTRACT;
@@ -255,6 +256,13 @@ public final class DaggerElements implements Elements, ClearableCache {
     return annotation ->
         annotationClassNames.contains(
             MoreTypes.asTypeElement(annotation.getAnnotationType()).getQualifiedName().toString());
+  }
+
+  public static ImmutableSet<? extends AnnotationMirror> getAnnotatedAnnotations(
+      Element element, ClassName annotationName) {
+    return element.getAnnotationMirrors().stream()
+        .filter(input -> isAnnotationPresent(input.getAnnotationType().asElement(), annotationName))
+        .collect(toImmutableSet());
   }
 
   public static ImmutableSet<String> suppressedWarnings(Element element) {
