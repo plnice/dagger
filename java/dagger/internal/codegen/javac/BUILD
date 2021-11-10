@@ -33,7 +33,7 @@ java_library(
         "//java/dagger/internal/codegen/compileroption",
         "//java/dagger/internal/codegen/langmodel",
         "//java/dagger/internal/codegen/xprocessing",
-        "//java/dagger/internal/guava:collect",
+        "//third_party/java/guava/collect",
     ],
 )
 

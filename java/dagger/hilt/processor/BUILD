@@ -123,7 +123,7 @@ gen_maven_artifact(
     # The shaded deps are added using jarjar, but they won't be shaded until later
     # due to: https://github.com/google/dagger/issues/2765. For the shaded rules see
     # util/deploy-hilt.sh
-    shaded_deps = ["@com_google_auto_auto_common//jar"],
+    shaded_deps = ["//third_party/java/auto:common"],
 )
 
 filegroup(

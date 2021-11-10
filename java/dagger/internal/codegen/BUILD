@@ -49,18 +49,18 @@ java_library(
         "//java/dagger/internal/codegen/validation",
         "//java/dagger/internal/codegen/writing",
         "//java/dagger/internal/codegen/xprocessing",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
         "//java/dagger/spi",
+        "//third_party/java/auto:common",
+        "//third_party/java/auto:service",
+        "//third_party/java/auto:value",
+        "//third_party/java/error_prone:annotations",
+        "//third_party/java/google_java_format",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/incap",
+        "//third_party/java/javapoet",
+        "//third_party/java/jsr330_inject",
         "@bazel_tools//tools/jdk:langtools-neverlink",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/auto:service",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/error_prone:annotations",
-        "@google_bazel_common//third_party/java/google_java_format",
-        "@google_bazel_common//third_party/java/incap",
-        "@google_bazel_common//third_party/java/javapoet",
-        "@google_bazel_common//third_party/java/jsr330_inject",
     ],
 )
 
@@ -68,7 +68,7 @@ java_library(
     name = "package_info",
     srcs = ["package-info.java"],
     tags = ["maven:merged"],
-    deps = ["@google_bazel_common//third_party/java/error_prone:annotations"],
+    deps = ["//third_party/java/error_prone:annotations"],
 )
 
 gen_maven_artifact(
@@ -116,7 +116,7 @@ gen_maven_artifact(
     # due to: https://github.com/google/dagger/issues/2765. For the shaded rules see
     # util/deploy-dagger.sh
     shaded_deps = [
-        "@com_google_auto_auto_common//jar",
+        "//third_party/java/auto:common",
         "//java/dagger/internal/codegen/xprocessing:xprocessing-jar",
     ],
 )

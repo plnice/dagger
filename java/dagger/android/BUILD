@@ -54,8 +54,8 @@ android_library(
     ],
     deps = [
         "//:dagger_with_compiler",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/error_prone:annotations",
+        "//third_party/java/auto:value",
+        "//third_party/java/error_prone:annotations",
         "@maven//:androidx_annotation_annotation",
     ],
 )
@@ -79,8 +79,8 @@ android_library(
     tags = ["maven_coordinates=com.google.dagger:dagger-android-legacy:" + POM_VERSION],
     exports = [
         "//:dagger_with_compiler",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/error_prone:annotations",
+        "//third_party/java/auto:value",
+        "//third_party/java/error_prone:annotations",
         "@maven//:com_android_support_support_annotations",
     ],
 )

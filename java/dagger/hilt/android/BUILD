@@ -104,7 +104,7 @@ android_library(
         ":package_info",
         "//java/dagger/hilt:entry_point",
         "//java/dagger/hilt/android/internal",
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/jsr305_annotations",
         "@maven//:androidx_activity_activity",
         "@maven//:androidx_fragment_fragment",
         "@maven//:androidx_lifecycle_lifecycle_common",
@@ -144,7 +144,7 @@ android_library(
         "//java/dagger/hilt/internal:component_manager",
         "//java/dagger/hilt/internal:preconditions",
         "//java/dagger/hilt/internal:test_singleton_component_manager",
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/jsr305_annotations",
     ],
 )
 
@@ -152,7 +152,7 @@ java_library(
     name = "package_info",
     srcs = ["package-info.java"],
     deps = [
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/jsr305_annotations",
     ],
 )
 

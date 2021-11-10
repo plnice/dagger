@@ -53,13 +53,13 @@ java_library(
         "//java/dagger/hilt/processor/internal/earlyentrypoint:aggregated_early_entry_point_metadata",
         "//java/dagger/hilt/processor/internal/uninstallmodules:aggregated_uninstall_modules_metadata",
         "//java/dagger/internal/codegen/extension",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "//java/dagger/internal/guava:graph",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/auto:service",
-        "@google_bazel_common//third_party/java/incap",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/auto:service",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/guava/graph",
+        "//third_party/java/incap",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -99,12 +99,12 @@ java_library(
         "//java/dagger/hilt/processor/internal/root/ir",
         "//java/dagger/hilt/processor/internal/uninstallmodules:aggregated_uninstall_modules_metadata",
         "//java/dagger/internal/codegen/extension",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/auto:service",
-        "@google_bazel_common//third_party/java/incap",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/auto:service",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/incap",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -132,12 +132,12 @@ java_library(
         "//java/dagger/hilt/processor/internal/root/ir",
         "//java/dagger/internal/codegen/extension",
         "//java/dagger/internal/codegen/kotlin",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "//java/dagger/internal/guava:graph",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/auto:value",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/guava/graph",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -147,7 +147,7 @@ java_library(
     deps = [
         "//java/dagger/hilt/processor/internal:classnames",
         "//java/dagger/hilt/processor/internal:processors",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/javapoet",
     ],
 )
 

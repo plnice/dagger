@@ -27,15 +27,15 @@ GenJavaTests(
     javacopts = DOCLINT_HTML_AND_SYNTAX,
     test_only_deps = [
         
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/junit",
-        "@google_bazel_common//third_party/java/truth",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/junit",
+        "//third_party/java/truth",
     ],
     deps = [
-        "@google_bazel_common//third_party/java/auto:value",
+        "//third_party/java/auto:value",
         "//:dagger_with_compiler",
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/jsr305_annotations",
         "//javatests/dagger/functional/jdk8:optional_binding_components",
     ],
 )

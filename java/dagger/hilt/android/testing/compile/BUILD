@@ -21,8 +21,8 @@ java_library(
     testonly = 1,
     srcs = ["HiltCompilerTests.java"],
     deps = [
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/compile_testing",
+        "//third_party/java/guava/collect",
+        "//third_party/java/compile_testing",
         "//java/dagger/hilt/android/processor/internal/androidentrypoint:processor_lib",
         "//java/dagger/hilt/android/processor/internal/customtestapplication:processor_lib",
         "//java/dagger/hilt/processor/internal/aggregateddeps:processor_lib",

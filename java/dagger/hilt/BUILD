@@ -54,7 +54,7 @@ java_library(
         "//java/dagger/hilt/internal:generated_component",
         "//java/dagger/hilt/internal:preconditions",
         "//java/dagger/hilt/internal:test_singleton_component",
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/jsr305_annotations",
     ],
 )
 
@@ -96,7 +96,7 @@ java_library(
     name = "package_info",
     srcs = ["package-info.java"],
     deps = [
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/jsr305_annotations",
     ],
 )
 

@@ -126,7 +126,7 @@ android_library(
         "//java/dagger/hilt/android/internal/testing:test_application_component_manager_holder",
         "//java/dagger/hilt/internal:component_manager",
         "//java/dagger/hilt/internal:preconditions",
-        "@google_bazel_common//third_party/java/auto:value",
+        "//third_party/java/auto:value",
     ],
 )
 
@@ -172,7 +172,7 @@ java_library(
     name = "package_info",
     srcs = ["package-info.java"],
     deps = [
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/jsr305_annotations",
     ],
 )
 

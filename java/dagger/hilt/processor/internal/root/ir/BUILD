@@ -26,7 +26,7 @@ kt_jvm_library(
     # Dependencies here should be kept to a minimum since this library is
     # shadowed into the Hilt Gradle Plugin artifact.
     deps = [
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/javapoet",
     ],
 )
 

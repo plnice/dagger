@@ -39,15 +39,15 @@ java_library(
     tags = ["maven_coordinates=com.google.dagger:dagger-android-processor:" + POM_VERSION],
     deps = [
         "//java/dagger:core",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
         "//java/dagger/spi",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/auto:service",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/google_java_format",
-        "@google_bazel_common//third_party/java/incap",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/auto:service",
+        "//third_party/java/auto:value",
+        "//third_party/java/google_java_format",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/incap",
+        "//third_party/java/javapoet",
     ],
 )
 

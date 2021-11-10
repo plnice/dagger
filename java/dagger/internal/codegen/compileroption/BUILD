@@ -30,9 +30,9 @@ java_library(
         "//java/dagger/internal/codegen/javapoet",
         "//java/dagger/internal/codegen/langmodel",
         "//java/dagger/internal/codegen/xprocessing",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/jsr330_inject",
+        "//third_party/java/auto:common",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/jsr330_inject",
     ],
 )

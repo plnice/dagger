@@ -27,11 +27,11 @@ java_library(
         ":compiler_options",
         ":processor_errors",
         ":processors",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/auto:value",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -43,11 +43,11 @@ java_library(
         "ProcessorErrors.java",
     ],
     deps = [
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/error_prone:annotations",
-        "@google_bazel_common//third_party/java/jsr305_annotations",
+        "//third_party/java/auto:common",
+        "//third_party/java/error_prone:annotations",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/jsr305_annotations",
     ],
 )
 
@@ -63,11 +63,11 @@ java_library(
         ":processor_errors",
         "//java/dagger/internal/codegen/extension",
         "//java/dagger/internal/codegen/kotlin",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/javapoet",
-        "@google_bazel_common//third_party/java/jsr330_inject",
+        "//third_party/java/auto:common",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
+        "//third_party/java/jsr330_inject",
         "@maven//:org_jetbrains_kotlin_kotlin_stdlib",
         "@maven//:org_jetbrains_kotlinx_kotlinx_metadata_jvm",
     ],
@@ -79,7 +79,7 @@ java_library(
         "ClassNames.java",
     ],
     deps = [
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -90,9 +90,9 @@ java_library(
     ],
     deps = [
         ":processors",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -106,9 +106,9 @@ java_library(
         ":processor_errors",
         ":processors",
         "//java/dagger/internal/codegen/extension",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -116,9 +116,9 @@ java_library(
     name = "component_descriptor",
     srcs = ["ComponentDescriptor.java"],
     deps = [
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:value",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -135,10 +135,10 @@ java_library(
         ":processors",
         "//java/dagger/hilt/processor/internal/definecomponent:define_components",
         "//java/dagger/internal/codegen/extension",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
     ],
 )
 
@@ -156,9 +156,9 @@ java_library(
     srcs = ["HiltCompilerOptions.java"],
     deps = [
         ":processor_errors",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
     ],
 )
 

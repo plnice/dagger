@@ -41,14 +41,14 @@ java_library(
         "//java/dagger/internal/codegen/javapoet",
         "//java/dagger/internal/codegen/langmodel",
         "//java/dagger/internal/codegen/xprocessing",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "//java/dagger/internal/guava:graph",
         "//java/dagger/spi",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/auto:value",
-        "@google_bazel_common//third_party/java/javapoet",
-        "@google_bazel_common//third_party/java/jsr330_inject",
+        "//third_party/java/auto:common",
+        "//third_party/java/auto:value",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/guava/graph",
+        "//third_party/java/javapoet",
+        "//third_party/java/jsr330_inject",
     ],
 )
 
@@ -59,8 +59,8 @@ java_library(
     tags = ["maven:merged"],
     deps = [
         "//java/dagger/internal/codegen/extension",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
+        "//third_party/java/auto:common",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
     ],
 )

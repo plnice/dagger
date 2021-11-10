@@ -27,10 +27,10 @@ java_library(
     deps = [
         "//java/dagger/internal/codegen/langmodel",
         "//java/dagger/internal/codegen/xprocessing",
-        "//java/dagger/internal/guava:base",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/auto:common",
-        "@google_bazel_common//third_party/java/error_prone:annotations",
-        "@google_bazel_common//third_party/java/javapoet",
+        "//third_party/java/auto:common",
+        "//third_party/java/error_prone:annotations",
+        "//third_party/java/guava/base",
+        "//third_party/java/guava/collect",
+        "//third_party/java/javapoet",
     ],
 )

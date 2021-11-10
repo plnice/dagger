@@ -170,6 +170,24 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 ANDROID_LINT_VERSION = "26.6.2"
 
+# TODO(b/204390647): Update to 1.2 once this bug is fixed.
+AUTO_COMMON_VERSION = "1.2"
+
+# NOTE(bcorso): Even though we set the version here, our Guava version in
+#  processor code will use whatever version is built into JavaBuilder, which is
+#  tied to the version of Bazel we're using.
+GUAVA_VERSION = "30.1.1"
+
+GRPC_VERSION = "1.2.0"
+
+INCAP_VERSION = "0.2"
+
+BYTE_BUDDY_VERSION = "1.9.10"
+
+CHECKER_FRAMEWORK_VERSION = "2.5.3"
+
+ERROR_PRONE_VERSION = "2.3.2"
+
 maven_install(
     artifacts = [
         "androidx.annotation:annotation:1.1.0",
@@ -196,12 +214,47 @@ maven_install(
         "com.android.tools.lint:lint-tests:%s" % ANDROID_LINT_VERSION,
         "com.android.tools:testutils:%s" % ANDROID_LINT_VERSION,
         "com.github.tschuchortdev:kotlin-compile-testing:1.2.8",
+        "com.google.auto:auto-common:%s" % AUTO_COMMON_VERSION,
+        "com.google.auto.factory:auto-factory:1.0",
+        "com.google.auto.service:auto-service:1.0",
+        "com.google.auto.service:auto-service-annotations:1.0",
+        "com.google.auto.value:auto-value:1.6",
+        "com.google.auto.value:auto-value-annotations:1.6",
+        "com.google.code.findbugs:jsr305:3.0.1",
         "com.google.devtools.ksp:symbol-processing-api:1.5.30-1.0.0",
-        "com.google.guava:guava:27.1-android",
+        "com.google.errorprone:error_prone_annotation:%s" % ERROR_PRONE_VERSION,
+        "com.google.errorprone:error_prone_annotations:%s" % ERROR_PRONE_VERSION,
+        "com.google.errorprone:error_prone_check_api:%s" % ERROR_PRONE_VERSION,
+        "com.google.googlejavaformat:google-java-format:1.5",
+        "com.google.guava:guava:%s-jre" % GUAVA_VERSION,
+        "com.google.guava:guava-testlib:%s-jre" % GUAVA_VERSION,
+        "com.google.guava:failureaccess:1.0.1",
+        "com.google.guava:guava-beta-checker:1.0",
+        "com.google.protobuf:protobuf-java:3.7.0",
+        "com.google.testing.compile:compile-testing:0.18",
+        "com.google.truth:truth:1.1",
+        "com.squareup:javapoet:1.13.0",
+        "io.grpc:grpc-context:%s" % GRPC_VERSION,
+        "io.grpc:grpc-core:%s" % GRPC_VERSION,
+        "io.grpc:grpc-netty:%s" % GRPC_VERSION,
+        "io.grpc:grpc-protobuf:%s" % GRPC_VERSION,
+        "javax.annotation:jsr250-api:1.0",
+        "javax.inject:javax.inject:1",
+        "javax.inject:javax.inject-tck:1",
         "junit:junit:4.13",
+        "net.bytebuddy:byte-buddy:%s" % BYTE_BUDDY_VERSION,
+        "net.bytebuddy:byte-buddy-agent:%s" % BYTE_BUDDY_VERSION,
+        "net.ltgt.gradle.incap:incap:%s" % INCAP_VERSION,
+        "net.ltgt.gradle.incap:incap-processor:%s" % INCAP_VERSION,
+        "org.checkerframework:checker-compat-qual:%s" % CHECKER_FRAMEWORK_VERSION,
+        "org.checkerframework:dataflow:%s" % CHECKER_FRAMEWORK_VERSION,
+        "org.checkerframework:javacutil:%s" % CHECKER_FRAMEWORK_VERSION,
+        "org.hamcrest:hamcrest-core:1.3",
         "org.jetbrains.kotlin:kotlin-stdlib:%s" % KOTLIN_VERSION,
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8:%s" % KOTLIN_VERSION,
         "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.3.0",
+        "org.mockito:mockito-core:2.28.2",
+        "org.objenesis:objenesis:1.0",
         "org.robolectric:robolectric:4.4",
         "org.robolectric:shadows-framework:4.4",  # For ActivityController
     ],

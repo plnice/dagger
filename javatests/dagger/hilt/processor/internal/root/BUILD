@@ -41,10 +41,10 @@ compiler_test(
     ],
     deps = [
         "//java/dagger/hilt/android/testing/compile",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/compile_testing",
-        "@google_bazel_common//third_party/java/junit",
-        "@google_bazel_common//third_party/java/truth",
+        "//third_party/java/compile_testing",
+        "//third_party/java/guava/collect",
+        "//third_party/java/junit",
+        "//third_party/java/truth",
     ],
 )
 
@@ -72,10 +72,10 @@ compiler_test(
     ],
     deps = [
         "//java/dagger/hilt/android/testing/compile",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/compile_testing",
-        "@google_bazel_common//third_party/java/junit",
-        "@google_bazel_common//third_party/java/truth",
+        "//third_party/java/compile_testing",
+        "//third_party/java/guava/collect",
+        "//third_party/java/junit",
+        "//third_party/java/truth",
     ],
 )
 
@@ -93,10 +93,10 @@ compiler_test(
     ],
     deps = [
         "//java/dagger/hilt/android/testing/compile",
-        "//java/dagger/internal/guava:collect",
-        "@google_bazel_common//third_party/java/compile_testing",
-        "@google_bazel_common//third_party/java/junit",
-        "@google_bazel_common//third_party/java/truth",
+        "//third_party/java/compile_testing",
+        "//third_party/java/guava/collect",
+        "//third_party/java/junit",
+        "//third_party/java/truth",
     ],
 )
 
@@ -114,10 +114,10 @@ compiler_test(
     ],
     deps = [
         "//java/dagger/hilt/android/testing/compile",
-        "//java/dagger/internal/guava:base",
-        "@google_bazel_common//third_party/java/compile_testing",
-        "@google_bazel_common//third_party/java/junit",
-        "@google_bazel_common//third_party/java/truth",
+        "//third_party/java/compile_testing",
+        "//third_party/java/guava/base",
+        "//third_party/java/junit",
+        "//third_party/java/truth",
     ],
 )
 
