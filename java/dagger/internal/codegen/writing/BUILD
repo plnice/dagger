@@ -19,6 +19,8 @@ load("@rules_java//java:defs.bzl", "java_library")
 
 package(default_visibility = ["//:src"])
 
+# Temp change
+
 java_library(
     name = "writing",
     srcs = glob(["*.java"]),
