@@ -21,7 +21,6 @@ import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import androidx.room.compiler.processing.XArrayType;
 import androidx.room.compiler.processing.XType;
 import androidx.room.compiler.processing.compat.XConverters;
-import com.google.auto.common.MoreTypes;
 import com.squareup.javapoet.ClassName;
 import javax.lang.model.type.TypeKind;
 
@@ -63,11 +62,9 @@ public final class XTypes {
 
   /**
    * Returns {@code true} if {@code type1} is equivalent to {@code type2}.
-   *
-   * <p>See {@link MoreTypes#equivalence()}.
    */
   public static boolean areEquivalentTypes(XType type1, XType type2) {
-    return MoreTypes.equivalence().equivalent(toJavac(type1), toJavac(type2));
+    return type1.getTypeName().equals(type2.getTypeName());
   }
 
   /** Returns {@code true} if the given type is a primitive type. */

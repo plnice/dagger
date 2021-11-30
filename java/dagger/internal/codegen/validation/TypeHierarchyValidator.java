@@ -19,9 +19,8 @@ package dagger.internal.codegen.validation;
 import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 
 import androidx.room.compiler.processing.XType;
-import com.google.auto.common.MoreTypes;
 import com.google.auto.common.SuperficialValidation;
-import com.google.common.base.Equivalence;
+import com.squareup.javapoet.TypeName;
 import dagger.internal.codegen.langmodel.DaggerTypes;
 import java.util.ArrayDeque;
 import java.util.HashSet;
@@ -51,16 +50,16 @@ final class TypeHierarchyValidator {
    */
   public static void validateTypeHierarchy(TypeMirror type, DaggerTypes types) {
     Queue<TypeMirror> queue = new ArrayDeque<>();
-    Set<Equivalence.Wrapper<TypeMirror>> queued = new HashSet<>();
+    Set<TypeName> queued = new HashSet<>();
     queue.add(type);
-    queued.add(MoreTypes.equivalence().wrap(type));
+    queued.add(TypeName.get(type));
     while (!queue.isEmpty()) {
       TypeMirror currType = queue.remove();
       if (!SuperficialValidation.validateType(currType)) {
         throw new TypeNotPresentException(currType.toString(), null);
       }
       for (TypeMirror superType : types.directSupertypes(currType)) {
-        if (queued.add(MoreTypes.equivalence().wrap(superType))) {
+        if (queued.add(TypeName.get(superType))) {
           queue.add(superType);
         }
       }

@@ -24,13 +24,12 @@ import static dagger.internal.codegen.extension.DaggerStreams.toImmutableSetMult
 import static dagger.spi.model.BindingKind.MULTIBOUND_MAP;
 import static javax.tools.Diagnostic.Kind.ERROR;
 
-import com.google.auto.common.MoreTypes;
-import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
+import com.squareup.javapoet.TypeName;
 import dagger.internal.codegen.base.MapType;
 import dagger.internal.codegen.binding.BindingDeclaration;
 import dagger.internal.codegen.binding.BindingDeclarationFormatter;
@@ -45,7 +44,6 @@ import dagger.spi.model.DiagnosticReporter;
 import dagger.spi.model.Key;
 import java.util.Set;
 import javax.inject.Inject;
-import javax.lang.model.type.DeclaredType;
 
 /**
  * Reports an error for any map binding with either more than one contribution with the same map key
@@ -161,8 +159,8 @@ final class MapMultibindingValidator implements BindingGraphPlugin {
       Binding multiboundMapBinding,
       ImmutableSet<ContributionBinding> contributions,
       DiagnosticReporter diagnosticReporter) {
-    ImmutableSetMultimap<Equivalence.Wrapper<DeclaredType>, ContributionBinding>
-        contributionsByMapKeyAnnotationType = indexByMapKeyAnnotationType(contributions);
+    ImmutableSetMultimap<TypeName, ContributionBinding> contributionsByMapKeyAnnotationType =
+        indexByMapKeyAnnotationType(contributions);
 
     if (contributionsByMapKeyAnnotationType.keySet().size() > 1) {
       diagnosticReporter.reportBinding(
@@ -173,19 +171,16 @@ final class MapMultibindingValidator implements BindingGraphPlugin {
     }
   }
 
-  private static ImmutableSetMultimap<Equivalence.Wrapper<DeclaredType>, ContributionBinding>
-      indexByMapKeyAnnotationType(ImmutableSet<ContributionBinding> contributions) {
+  private static ImmutableSetMultimap<TypeName, ContributionBinding> indexByMapKeyAnnotationType(
+      ImmutableSet<ContributionBinding> contributions) {
     return ImmutableSetMultimap.copyOf(
         Multimaps.index(
             contributions,
-            mapBinding ->
-                MoreTypes.equivalence()
-                    .wrap(mapBinding.mapKeyAnnotation().get().getAnnotationType())));
+            mapBinding -> TypeName.get(mapBinding.mapKeyAnnotation().get().getAnnotationType())));
   }
 
   private String inconsistentMapKeyAnnotationTypesErrorMessage(
-      ImmutableSetMultimap<Equivalence.Wrapper<DeclaredType>, ContributionBinding>
-          contributionsByMapKeyAnnotationType,
+      ImmutableSetMultimap<TypeName, ContributionBinding> contributionsByMapKeyAnnotationType,
       Key mapBindingKey) {
     StringBuilder message =
         new StringBuilder(mapBindingKey.toString())
@@ -193,7 +188,7 @@ final class MapMultibindingValidator implements BindingGraphPlugin {
     Multimaps.asMap(contributionsByMapKeyAnnotationType)
         .forEach(
             (annotationType, contributions) -> {
-              message.append('\n').append(INDENT).append(annotationType.get()).append(':');
+              message.append('\n').append(INDENT).append(annotationType).append(':');
               bindingDeclarationFormatter.formatIndentedList(message, contributions, 2);
             });
     return message.toString();

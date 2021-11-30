@@ -16,7 +16,6 @@
 
 package dagger.internal.codegen.base;
 
-import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import static com.google.auto.common.MoreTypes.isType;
 import static com.google.common.base.Preconditions.checkArgument;
 import static dagger.internal.codegen.langmodel.DaggerTypes.isTypeOf;
@@ -24,10 +23,9 @@ import static dagger.internal.codegen.langmodel.DaggerTypes.unwrapType;
 import static dagger.internal.codegen.xprocessing.XTypes.isTypeOf;
 
 import androidx.room.compiler.processing.XType;
-import com.google.auto.common.MoreTypes;
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Equivalence;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.TypeName;
 import dagger.internal.codegen.javapoet.TypeNames;
 import dagger.spi.model.Key;
 import javax.lang.model.type.TypeMirror;
@@ -37,10 +35,8 @@ import javax.lang.model.type.TypeMirror;
 public abstract class SetType {
   private XType type;
 
-  /**
-   * The set type itself, wrapped in {@link MoreTypes#equivalence()}. Use {@link #type()} instead.
-   */
-  protected abstract Equivalence.Wrapper<TypeMirror> wrappedType();
+  /** The set type itself. */
+  abstract TypeName typeName();
 
   /** The set type itself. */
   private XType type() {
@@ -99,7 +95,7 @@ public abstract class SetType {
    */
   public static SetType from(XType type) {
     checkArgument(isSet(type), "%s must be a Set", type);
-    SetType setType = new AutoValue_SetType(MoreTypes.equivalence().wrap(toJavac(type)));
+    SetType setType = new AutoValue_SetType(type.getTypeName());
     setType.type = type;
     return setType;
   }

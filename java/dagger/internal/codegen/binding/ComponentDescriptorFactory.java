@@ -40,7 +40,6 @@ import androidx.room.compiler.processing.XMethodType;
 import androidx.room.compiler.processing.XProcessingEnv;
 import androidx.room.compiler.processing.XType;
 import androidx.room.compiler.processing.XTypeElement;
-import com.google.auto.common.MoreTypes;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -232,10 +231,9 @@ public final class ComponentDescriptorFactory {
         checkArgument(
             isVoid(returnType)
                 // TODO(bcorso): Replace this with isSameType()?
-                || MoreTypes.equivalence()
-                    .equivalent(
-                        toJavac(returnType),
-                        toJavac(resolvedComponentMethod.getParameterTypes().get(0))),
+                || returnType
+                    .getTypeName()
+                    .equals(resolvedComponentMethod.getParameterTypes().get(0).getTypeName()),
             "members injection method must return void or parameter type: %s",
             componentMethod);
         descriptor.dependencyRequest(

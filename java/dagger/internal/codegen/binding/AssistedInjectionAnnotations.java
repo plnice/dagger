@@ -16,7 +16,6 @@
 
 package dagger.internal.codegen.binding;
 
-import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import static com.google.auto.common.MoreElements.isAnnotationPresent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.getOnlyElement;
@@ -37,14 +36,13 @@ import androidx.room.compiler.processing.XType;
 import androidx.room.compiler.processing.XTypeElement;
 import androidx.room.compiler.processing.XVariableElement;
 import com.google.auto.common.MoreElements;
-import com.google.auto.common.MoreTypes;
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
-import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -53,7 +51,6 @@ import dagger.spi.model.BindingKind;
 import java.util.List;
 import java.util.Optional;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
 
 /** Assisted injection utility methods. */
 public final class AssistedInjectionAnnotations {
@@ -228,7 +225,7 @@ public final class AssistedInjectionAnnotations {
               Optional.ofNullable(parameter.getAnnotation(TypeNames.ASSISTED))
                   .map(assisted -> assisted.getAsString("value"))
                   .orElse(""),
-              MoreTypes.equivalence().wrap(toJavac(parameterType)));
+              parameterType.getTypeName());
       assistedParameter.parameterElement = parameter;
       assistedParameter.parameterType = parameterType;
       return assistedParameter;
@@ -240,8 +237,8 @@ public final class AssistedInjectionAnnotations {
     /** Returns the string qualifier from the {@link Assisted#value()}. */
     public abstract String qualifier();
 
-    /** Returns the wrapper for the type annotated with {@link Assisted}. */
-    public abstract Equivalence.Wrapper<TypeMirror> wrappedType();
+    /** Returns the type annotated with {@link Assisted}. */
+    abstract TypeName typeName();
 
     /** Returns the type annotated with {@link Assisted}. */
     public final XType type() {

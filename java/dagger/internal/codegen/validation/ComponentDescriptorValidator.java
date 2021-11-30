@@ -44,12 +44,12 @@ import androidx.room.compiler.processing.XMethodElement;
 import androidx.room.compiler.processing.XMethodType;
 import androidx.room.compiler.processing.XType;
 import androidx.room.compiler.processing.XTypeElement;
-import com.google.common.base.Equivalence.Wrapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Sets;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.TypeName;
 import dagger.internal.codegen.binding.ComponentCreatorDescriptor;
 import dagger.internal.codegen.binding.ComponentDescriptor;
 import dagger.internal.codegen.binding.ComponentRequirement;
@@ -73,7 +73,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 import javax.inject.Inject;
-import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
 
 /**
@@ -321,20 +320,20 @@ public final class ComponentDescriptorValidator {
       }
 
       // Validate that declared creator requirements (modules, dependencies) have unique types.
-      ImmutableSetMultimap<Wrapper<TypeMirror>, XElement> declaredRequirementsByType =
+      ImmutableSetMultimap<TypeName, XElement> declaredRequirementsByType =
           Multimaps.filterKeys(
                   creator.unvalidatedRequirementElements(),
                   creatorModuleAndDependencyRequirements::contains)
               .entries()
               .stream()
               .collect(
-                  toImmutableSetMultimap(entry -> entry.getKey().wrappedType(), Entry::getValue));
+                  toImmutableSetMultimap(
+                      entry -> entry.getKey().type().getTypeName(), Entry::getValue));
       declaredRequirementsByType
           .asMap()
           .forEach(
-              (typeWrapper, elementsForType) -> {
+              (type, elementsForType) -> {
                 if (elementsForType.size() > 1) {
-                  TypeMirror type = typeWrapper.get();
                   // TODO(cgdecker): Attach this error message to the factory method rather than
                   // the component type if the elements are factory method parameters AND the
                   // factory method is defined by the factory type itself and not by a supertype.

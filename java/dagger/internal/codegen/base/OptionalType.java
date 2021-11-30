@@ -16,7 +16,6 @@
 
 package dagger.internal.codegen.base;
 
-import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import static com.google.common.base.Preconditions.checkArgument;
 import static dagger.internal.codegen.extension.DaggerStreams.toImmutableMap;
 import static dagger.internal.codegen.extension.DaggerStreams.valuesOf;
@@ -24,9 +23,7 @@ import static dagger.internal.codegen.xprocessing.XTypes.isDeclared;
 
 import androidx.room.compiler.processing.XType;
 import androidx.room.compiler.processing.XTypeElement;
-import com.google.auto.common.MoreTypes;
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
@@ -106,13 +103,8 @@ public abstract class OptionalType {
     }
   }
 
-  /**
-   * The optional type itself, wrapped using {@link MoreTypes#equivalence()}.
-   *
-   * @deprecated Use {@link #declaredOptionalType()} instead.
-   */
-  @Deprecated
-  protected abstract Equivalence.Wrapper<TypeMirror> wrappedType();
+  /** The optional type itself. */
+  abstract TypeName typeName();
 
   /** The optional type itself. */
   private XType type() {
@@ -146,8 +138,7 @@ public abstract class OptionalType {
    */
   public static OptionalType from(XType type) {
     checkArgument(isOptional(type), "%s must be an Optional", type);
-    OptionalType optionalType =
-        new AutoValue_OptionalType(MoreTypes.equivalence().wrap(toJavac(type)));
+    OptionalType optionalType = new AutoValue_OptionalType(type.getTypeName());
     optionalType.type = type;
     return optionalType;
   }

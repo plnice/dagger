@@ -31,15 +31,13 @@ import androidx.room.compiler.processing.XElement;
 import androidx.room.compiler.processing.XMethodElement;
 import androidx.room.compiler.processing.XType;
 import androidx.room.compiler.processing.XTypeElement;
-import com.google.auto.common.MoreTypes;
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Equivalence;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 import dagger.internal.codegen.javapoet.TypeNames;
 import dagger.spi.model.BindingKind;
 import dagger.spi.model.Key;
 import java.util.Optional;
-import javax.lang.model.type.TypeMirror;
 
 /** A type that a component needs an instance of. */
 @AutoValue
@@ -78,11 +76,8 @@ public abstract class ComponentRequirement {
     return kind().isBoundInstance();
   }
 
-  /**
-   * The type of the instance the component must have, wrapped so that requirements can be used as
-   * value types.
-   */
-  public abstract Equivalence.Wrapper<TypeMirror> wrappedType();
+  /** The type of the instance the component must have. */
+  abstract TypeName typeName();
 
   /** The type of the instance the component must have. */
   public XType type() {
@@ -191,7 +186,7 @@ public abstract class ComponentRequirement {
     ComponentRequirement requirement =
         new AutoValue_ComponentRequirement(
             Kind.DEPENDENCY,
-            MoreTypes.equivalence().wrap(toJavac(type)),
+            type.getTypeName(),
             Optional.empty(),
             Optional.empty(),
             simpleVariableName(type.getTypeElement().getClassName()));
@@ -204,7 +199,7 @@ public abstract class ComponentRequirement {
     ComponentRequirement requirement =
         new AutoValue_ComponentRequirement(
             Kind.MODULE,
-            MoreTypes.equivalence().wrap(toJavac(type)),
+            type.getTypeName(),
             Optional.empty(),
             Optional.empty(),
             simpleVariableName(type.getTypeElement().getClassName()));
@@ -217,7 +212,7 @@ public abstract class ComponentRequirement {
     ComponentRequirement requirement =
         new AutoValue_ComponentRequirement(
             Kind.BOUND_INSTANCE,
-            MoreTypes.equivalence().wrap(key.type().java()),
+            key.type().xprocessing().getTypeName(),
             nullable ? Optional.of(NullPolicy.ALLOW) : Optional.empty(),
             Optional.of(key),
             toJavac(elementForVariableName).getSimpleName().toString());

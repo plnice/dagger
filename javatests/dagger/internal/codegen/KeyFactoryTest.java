@@ -22,10 +22,10 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import androidx.room.compiler.processing.XProcessingEnv;
-import com.google.auto.common.MoreTypes;
 import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.testing.compile.CompilationRule;
+import com.squareup.javapoet.TypeName;
 import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
@@ -121,10 +121,9 @@ public class KeyFactoryTest {
     ExecutableElement providesMethod =
         Iterables.getOnlyElement(ElementFilter.methodsIn(moduleElement.getEnclosedElements()));
     Key key = keyFactory.forProvidesMethod(providesMethod, moduleElement);
-    assertThat(MoreTypes.equivalence().wrap(key.qualifier().get().java().getAnnotationType()))
-        .isEqualTo(MoreTypes.equivalence().wrap(qualifierElement.asType()));
-    assertThat(MoreTypes.equivalence().wrap(key.type().java()))
-        .isEqualTo(MoreTypes.equivalence().wrap(stringType));
+    assertThat(TypeName.get(key.qualifier().get().java().getAnnotationType()))
+        .isEqualTo(TypeName.get(qualifierElement.asType()));
+    assertThat(TypeName.get(key.type().java())).isEqualTo(TypeName.get(stringType));
     assertThat(key.toString())
         .isEqualTo(
             "@dagger.internal.codegen.KeyFactoryTest.TestQualifier({"

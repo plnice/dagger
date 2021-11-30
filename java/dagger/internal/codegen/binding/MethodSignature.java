@@ -22,13 +22,10 @@ import static dagger.internal.codegen.xprocessing.XElements.getSimpleName;
 
 import androidx.room.compiler.processing.XMethodType;
 import androidx.room.compiler.processing.XType;
-import com.google.auto.common.MoreTypes;
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
+import com.squareup.javapoet.TypeName;
 import dagger.internal.codegen.binding.ComponentDescriptor.ComponentMethodDescriptor;
-import java.util.List;
-import javax.lang.model.type.TypeMirror;
 
 /** A class that defines proper {@code equals} and {@code hashcode} for a method signature. */
 @AutoValue
@@ -36,21 +33,20 @@ public abstract class MethodSignature {
 
   abstract String name();
 
-  abstract ImmutableList<? extends Equivalence.Wrapper<? extends TypeMirror>> parameterTypes();
+  abstract ImmutableList<TypeName> parameterTypes();
 
-  abstract ImmutableList<? extends Equivalence.Wrapper<? extends TypeMirror>> thrownTypes();
+  abstract ImmutableList<TypeName> thrownTypes();
 
   public static MethodSignature forComponentMethod(
       ComponentMethodDescriptor componentMethod, XType componentType) {
     XMethodType methodType = componentMethod.methodElement().asMemberOf(componentType);
     return new AutoValue_MethodSignature(
         getSimpleName(componentMethod.methodElement()),
-        wrapInEquivalence(toJavac(methodType).getParameterTypes()),
-        wrapInEquivalence(toJavac(methodType).getThrownTypes()));
-  }
-
-  private static ImmutableList<? extends Equivalence.Wrapper<? extends TypeMirror>>
-      wrapInEquivalence(List<? extends TypeMirror> types) {
-    return types.stream().map(MoreTypes.equivalence()::wrap).collect(toImmutableList());
+        toJavac(methodType).getParameterTypes().stream()
+            .map(TypeName::get)
+            .collect(toImmutableList()),
+        toJavac(methodType).getThrownTypes().stream()
+            .map(TypeName::get)
+            .collect(toImmutableList()));
   }
 }

@@ -16,17 +16,15 @@
 
 package dagger.internal.codegen.base;
 
-import static androidx.room.compiler.processing.compat.XConverters.toJavac;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static dagger.internal.codegen.langmodel.DaggerTypes.unwrapType;
 import static dagger.internal.codegen.xprocessing.XTypes.isTypeOf;
 
 import androidx.room.compiler.processing.XType;
-import com.google.auto.common.MoreTypes;
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Equivalence;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.TypeName;
 import dagger.internal.codegen.javapoet.TypeNames;
 import dagger.spi.model.Key;
 import javax.lang.model.type.TypeMirror;
@@ -36,10 +34,8 @@ import javax.lang.model.type.TypeMirror;
 public abstract class MapType {
   private XType type;
 
-  /**
-   * The map type itself, wrapped in {@link MoreTypes#equivalence()}. Use {@link #type()} instead.
-   */
-  abstract Equivalence.Wrapper<TypeMirror> wrappedType();
+  /** The map type itself. */
+  abstract TypeName typeName();
 
   /** The map type itself. */
   private XType type() {
@@ -126,7 +122,7 @@ public abstract class MapType {
    */
   public static MapType from(XType type) {
     checkArgument(isMap(type), "%s is not a Map", type);
-    MapType mapType = new AutoValue_MapType(MoreTypes.equivalence().wrap(toJavac(type)));
+    MapType mapType = new AutoValue_MapType(type.getTypeName());
     mapType.type = type;
     return mapType;
   }
