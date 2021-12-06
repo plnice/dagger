@@ -138,9 +138,9 @@ kt_download_local_dev_dependencies()
 
 load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kotlin_repositories")
 
-KOTLIN_VERSION = "1.4.20"
+KOTLIN_VERSION = "1.5.31"
 
-KOTLINC_RELEASE_SHA = "11db93a4d6789e3406c7f60b9f267eba26d6483dcd771eff9f85bb7e9837011f"
+KOTLINC_RELEASE_SHA = "661111286f3e5ac06aaf3a9403d869d9a96a176b62b141814be626a47249fe9e"
 
 KOTLINC_RELEASE = {
     "sha256": KOTLINC_RELEASE_SHA,
