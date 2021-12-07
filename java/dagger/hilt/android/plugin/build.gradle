@@ -184,11 +184,19 @@ tasks.withType(GenerateModuleMetadata) {
   enabled = false
 }
 
+group = "com.google.dagger"
+ext.artifact = "hilt-android-gradle-plugin"
+
+def getPublishVersion() {
+  def publishVersion = findProperty("PublishVersion")
+  return (publishVersion != null) ? publishVersion : "LOCAL-SNAPSHOT"
+}
+
 // TODO(danysantiago): Use POM template in tools/ to avoid duplicating lines.
 publishing {
   publications {
     plugin(MavenPublication) {
-      artifactId = 'hilt-android-gradle-plugin'
+      artifactId = artifact
       version = getPublishVersion()
       from components.kotlin
       artifact(shadowJar)
@@ -238,6 +246,17 @@ publishing {
         }
       }
     }
+    pluginMarker(MavenPublication) {
+      groupId = "dagger.hilt.android.plugin"
+      artifactId = "dagger.hilt.android.plugin.gradle.plugin"
+      version = getPublishVersion()
+      pom.withXml {
+        def dependencyNode = asNode().appendNode("dependencies").appendNode("dependency")
+        dependencyNode.appendNode("groupId", group)
+        dependencyNode.appendNode("artifactId", artifact)
+        dependencyNode.appendNode("version", getPublishVersion())
+      }
+    }
   }
   // Publish to build output repository.
   repositories {
@@ -245,11 +264,4 @@ publishing {
       url = uri("$buildDir/repo")
     }
   }
-}
-
-group='com.google.dagger'
-
-def getPublishVersion() {
-  def publishVersion = findProperty("PublishVersion")
-  return (publishVersion != null) ? publishVersion : "LOCAL-SNAPSHOT"
 }
